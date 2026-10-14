@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Virtual Lab Kimia Dasar | Titrasi Asam-Basa</title>
+  <meta name="description" content="Praktikum virtual titrasi asam-basa untuk mata kuliah Kimia Dasar: pemasangan alat, penambahan indikator, titrasi, dan analisis kurva pH.">
+
+  <!-- Preconnect untuk Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Font yang diperbarui: Montserrat (Heading), Open Sans (Body), Playfair Display (Script/Hero) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  
+  <!-- Ikon Phosphor -->
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+  
+  <!-- Stylesheet Utama (Diperbarui) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <a class="skip-link" href="#bench">Lewati ke area percobaan</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"><i class="ph ph-flask"></i></span>
+        <div class="brand-text">
+          <span class="brand-name">Virtual Lab Kimia Dasar</span>
+          <span class="brand-sub">Praktikum virtual analisis volumetri</span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-ghost" id="btnResetHeader">
+        <i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i>Atur ulang percobaan
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Area Hero tidak lagi butuh utility class .grad-light-blue karena sudah ditangani CSS .hero -->
+    <section class="hero" aria-labelledby="judul-halaman">
+      <div class="container">
+        <h1 id="judul-halaman" class="hero-title">Titrasi Asam-Basa</h1>
+        <p class="hero-lead">Tentukan konsentrasi larutan asam dengan menitrasi larutan NaOH standar. Pasang alat, tambahkan indikator, lalu amati perubahan pH dan warna larutan selama titrasi berlangsung.</p>
+      </div>
+    </section>
+
+    <div class="container lab-grid">
+
+      <!-- Kolom pengaturan -->
+      <aside class="area-setup" aria-label="Pengaturan percobaan dan perlengkapan">
+
+        <section class="panel" aria-labelledby="h-param">
+          <h2 id="h-param" class="panel-title"><i class="ph ph-faders" aria-hidden="true"></i>Parameter percobaan</h2>
+
+          <fieldset class="field">
+            <legend>Mode</legend>
+            <div class="segmented">
+              <input type="radio" name="mode" id="modeExplore" value="explore" checked>
+              <label for="modeExplore">Eksplorasi</label>
+              <input type="radio" name="mode" id="modeDetermine" value="determine">
+              <label for="modeDetermine">Uji konsentrasi</label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="selAcid">Larutan analit</label>
+            <select id="selAcid" class="input"></select>
+          </div>
+
+          <div class="field">
+            <label for="selConc">Konsentrasi analit</label>
+            <select id="selConc" class="input">
+              <option value="unknown" id="unknownOpt" disabled hidden>Tidak diketahui</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="selIndicator">Indikator</label>
+            <select id="selIndicator" class="input"></select>
+          </div>
+
+          <dl class="param-list">
+            <div><dt>Analit</dt><dd id="paramAcid"></dd></div>
+            <div><dt>Volume analit</dt><dd id="paramVol"></dd></div>
+            <div><dt>Konsentrasi analit</dt><dd id="paramConc"></dd></div>
+            <div><dt>Titran</dt><dd id="paramTitrant"></dd></div>
+            <div><dt>Volume ekuivalen</dt><dd id="paramEq"></dd></div>
+          </dl>
+        </section>
+
+        <section class="panel" aria-labelledby="h-tray">
+          <h2 id="h-tray" class="panel-title"><i class="ph ph-beaker" aria-hidden="true"></i>Alat dan bahan</h2>
+          <p class="panel-hint">Seret item ke area percobaan. Alternatif tanpa mouse: fokuskan item, lalu tekan Enter.</p>
+          <ul class="tray">
+            <li>
+              <div class="tray-item" id="itemFlask" role="button" tabindex="0" draggable="true" data-item="flask" aria-label="Labu Erlenmeyer berisi analit. Seret ke dudukan di bawah buret.">
+                <!-- Ikon tetap menggunakan utility class soft-color yang baru -->
+                <span class="tray-icon grad-light-blue" aria-hidden="true"><i class="ph ph-flask"></i></span>
+                <span class="tray-text">
+                  <strong>Labu Erlenmeyer</strong>
+                  <small id="flaskSub"></small>
+                </span>
+                <i class="ph ph-dots-six-vertical tray-grip" aria-hidden="true"></i>
+              </div>
+            </li>
+            <li>
+              <div class="tray-item" id="itemIndicator" role="button" tabindex="0" draggable="true" data-item="indicator" aria-label="Botol indikator. Seret ke labu Erlenmeyer.">
+                <span class="tray-icon grad-light-yellow" aria-hidden="true"><i class="ph ph-eyedropper"></i></span>
+                <span class="tray-text">
+                  <strong>Botol indikator</strong>
+                  <small id="indicatorSub"></small>
+                </span>
+                <i class="ph ph-dots-six-vertical tray-grip" aria-hidden="true"></i>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="panel" aria-labelledby="h-steps">
+          <h2 id="h-steps" class="panel-title"><i class="ph ph-list-checks" aria-hidden="true"></i>Tahapan praktikum</h2>
+          <ol class="steps" id="stepList">
+            <li class="step"><span class="step-marker"><span class="step-num">1</span><i class="ph-bold ph-check step-check" aria-hidden="true"></i></span><span class="step-text">Letakkan labu Erlenmeyer pada dudukan di bawah buret.</span></li>
+            <li class="step"><span class="step-marker"><span class="step-num">2</span><i class="ph-bold ph-check step-check" aria-hidden="true"></i></span><span class="step-text">Teteskan indikator ke dalam labu.</span></li>
+            <li class="step"><span class="step-marker"><span class="step-num">3</span><i class="ph-bold ph-check step-check" aria-hidden="true"></i></span><span class="step-text">Tambahkan titran NaOH dari buret secara bertahap.</span></li>
+            <li class="step"><span class="step-marker"><span class="step-num">4</span><i class="ph-bold ph-check step-check" aria-hidden="true"></i></span><span class="step-text">Catat sedikitnya tiga data volume, pH, dan warna.</span></li>
+            <li class="step"><span class="step-marker"><span class="step-num">5</span><i class="ph-bold ph-check step-check" aria-hidden="true"></i></span><span class="step-text" id="stepFinalText">Hitung hasil (Mode Uji)</span></li>
+          </ol>
+        </section>
+
+        <details class="panel theory">
+          <summary><i class="ph ph-book-open" aria-hidden="true"></i>Ringkasan teori</summary>
+          <div class="theory-body">
+            <p>Pada titik ekuivalen, jumlah mol asam sama dengan jumlah mol basa yang ditambahkan.</p>
+            <p class="formula">Ca &times; Va = Cb &times; Vb</p>
+            <ul>
+              <li>Asam kuat dan basa kuat: pH titik ekuivalen sama dengan 7.</li>
+              <li>Asam lemah dan basa kuat: pH titik ekuivalen lebih besar dari 7, dan pH sama dengan pKa saat volume titran setengah Vb ekuivalen.</li>
+              <li>Rentang perubahan warna indikator harus berada pada daerah lonjakan pH di sekitar titik ekuivalen.</li>
+              <li>Model: Kw = 1,0 &times; 10<sup>-14</sup> pada 25 &deg;C; Ka asam asetat = 1,8 &times; 10<sup>-5</sup>.</li>
+            </ul>
+          </div>
+        </details>
+      </aside>
+
+      <!-- Area percobaan -->
+      <section id="bench" class="panel area-bench" aria-labelledby="h-bench">
+        <div class="panel-head">
+          <h2 id="h-bench" class="panel-title"><i class="ph ph-test-tube" aria-hidden="true"></i>Area percobaan</h2>
+          <button type="button" class="btn" id="btnResetBench"><i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i>Atur ulang</button>
+        </div>
+
+        <div class="readouts" role="group" aria-label="Pembacaan alat ukur">
+          <div class="readout grad-light-blue">
+            <span class="readout-label">Volume titran</span>
+            <span class="readout-body"><output id="outVolume" class="readout-value">0,00</output><span class="readout-unit">mL</span></span>
+          </div>
+          <div class="readout grad-light-green">
+            <span class="readout-label">pH larutan</span>
+            <span class="readout-body"><output id="outPH" class="readout-value">--</output></span>
+          </div>
+          <div class="readout grad-light-yellow">
+            <span class="readout-label">Warna larutan</span>
+            <span class="readout-body"><span class="swatch" id="swatch"></span><output id="outColor" class="readout-text">--</output></span>
+          </div>
+        </div>
+
+        <div class="stage">
+          <canvas id="benchCanvas" width="400" height="580" role="img" aria-label="Rangkaian alat titrasi: buret berisi NaOH di atas labu Erlenmeyer berisi analit"></canvas>
+          <div class="dropzone" id="dropzone" aria-hidden="true">
+            <span class="dropzone-label" id="dropzoneLabel">Letakkan di sini</span>
+          </div>
+        </div>
+
+        <p id="status" class="status" data-type="info" role="status" aria-live="polite">
+          <i class="ph ph-info" id="statusIcon" aria-hidden="true"></i>
+          <span id="statusText">Siap untuk memulai simulasi.</span>
+        </p>
+
+        <div class="controls">
+          <h3 class="controls-title">Kontrol buret</h3>
+          <div class="btn-row">
+            <button type="button" class="btn" id="btnDrop"><i class="ph ph-drop" aria-hidden="true"></i>1 tetes (0,05 mL)</button>
+            <button type="button" class="btn" data-volume="0.1">+0,10 mL</button>
+            <button type="button" class="btn" data-volume="1">+1,00 mL</button>
+            <button type="button" class="btn btn-primary" id="btnHold"><i class="ph ph-hand-pointing" aria-hidden="true"></i>Tahan untuk membuka keran</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grafik dan data -->
+      <section id="data" class="area-data" aria-label="Grafik dan data pengamatan">
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title"><i class="ph ph-chart-line" aria-hidden="true"></i>Kurva titrasi</h2>
+          </div>
+          <canvas id="curveCanvas" width="480" height="330" role="img" aria-label="Grafik pH terhadap volume NaOH yang ditambahkan"></canvas>
+          <ul class="legend" aria-label="Keterangan grafik">
+            <li><span class="legend-line"></span>Hasil pengamatan</li>
+            <li><span class="legend-dot"></span>Data tercatat</li>
+            <li><span class="legend-band"></span>Rentang indikator</li>
+          </ul>
+          <label class="check"><input type="checkbox" id="chkTheory"><span>Tampilkan kurva teoretis dan titik ekuivalen</span></label>
+          <p class="panel-hint" id="theoryHint" hidden>Opsi ini terbuka setelah jawaban pada mode uji konsentrasi diperiksa.</p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title"><i class="ph ph-table" aria-hidden="true"></i>Data pengamatan</h2>
+            <div class="btn-row">
+              <button type="button" class="btn btn-accent" id="btnRecord"><i class="ph ph-plus" aria-hidden="true"></i>Catat data</button>
+              <button type="button" class="btn" id="btnClear"><i class="ph ph-eraser" aria-hidden="true"></i>Hapus</button>
+            </div>
+          </div>
+          <div class="table-wrap" id="tableWrap">
+            <table class="data-table">
+              <caption class="sr-only">Data volume NaOH, pH, dan warna larutan</caption>
+              <thead>
+                <tr><th scope="col">No</th><th scope="col">Volume NaOH (mL)</th><th scope="col">pH</th><th scope="col">Warna</th></tr>
+              </thead>
+              <tbody id="recordBody"></tbody>
+            </table>
+          </div>
+          <p class="empty" id="recordEmpty">Belum ada data. Pasang labu, lakukan titrasi, lalu tekan Catat data.</p>
+        </div>
+
+        <div class="panel" id="panelVerify" hidden>
+          <h2 class="panel-title"><i class="ph ph-target" aria-hidden="true"></i>Verifikasi hasil</h2>
+          <form id="formVerify" novalidate>
+            <p class="panel-hint">Tentukan volume ekuivalen dari kurva, lalu hitung konsentrasi analit dengan Ca = (Cb &times; Vb) / Va.</p>
+            <div class="field-row">
+              <div class="field">
+                <label for="inVe">Volume ekuivalen, Vb (mL)</label>
+                <input class="input" type="number" id="inVe" step="0.01" min="0" max="50" inputmode="decimal">
+              </div>
+              <div class="field">
+                <label for="inCa">Konsentrasi analit, Ca (M)</label>
+                <input class="input" type="number" id="inCa" step="0.0001" min="0" inputmode="decimal">
+              </div>
+            </div>
+            <div class="btn-row">
+              <button type="submit" class="btn btn-primary"><i class="ph ph-check-circle" aria-hidden="true"></i>Periksa jawaban</button>
+              <button type="button" class="btn" id="btnNewProblem"><i class="ph ph-shuffle" aria-hidden="true"></i>Soal baru</button>
+            </div>
+            <p id="verifyResult" class="verify-result" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Virtual Lab Kimia Dasar. Seluruh perhitungan dijalankan di peramban Anda tanpa pengiriman data ke server.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

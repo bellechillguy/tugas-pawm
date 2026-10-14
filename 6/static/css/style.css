@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    --lace-width: 32px;
+    margin: 0;
+    padding: 64px 60px 56px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222;
+    background-color: #DCF3FD;
+    text-align: center;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.lace-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.lace-edge {
+    position: absolute;
+    width: var(--lace-width);
+    height: 100%;
+    background: url('/static/img/hiasan/lace.png') top center / 480% auto repeat-y;
+}
+
+.lace-left { left: 0; top: 0; }
+.lace-right { right: 0; top: 0; transform: scaleX(-1); }
+.lace-top, .lace-bottom { height: 100vw; transform-origin: top left; }
+.lace-top { left: 100%; top: 0; transform: rotate(90deg); }
+.lace-bottom { left: 0; top: 100%; transform: rotate(-90deg); }
+
+.welcome {
+    position: relative;
+    max-width: 750px;
+    margin: 0 auto 40px;
+}
+
+h1 {
+    margin: 0 auto 20px;
+    max-width: 760px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 2rem;
+    line-height: 1.2;
+    color: #f0438c;
+}
+
+.hero {
+    display: block;
+    width: 750px;
+    margin: 0 auto;
+}
+
+.pony-photo {
+    position: relative;
+    width: 220px;
+    max-width: 100%;
+    margin: 10px auto 0;
+}
+
+.pony-photo > .pony { margin: 0; }
+
+.song {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.verse {
+    position: relative;
+    width: 100%;
+    line-height: 1.6;
+}
+
+.intro > div + div:not(.friendship-photo) { margin-top: 12px; }
+.friendship-photo {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 20px auto 0;
+}
+.friendship { display: block; margin: 0; }
+
+.pony {
+    display: block;
+    width: 220px;
+    height: 220px;
+    margin: 10px auto 0;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+img { max-width: 100%; height: auto; }
+
+.decoration {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    object-fit: contain;
+    height: auto;
+}
+
+.decoration-star { width: 82px; right: -18px; bottom: -12px; transform: rotate(12deg); }
+.decoration-cd { width: 92px; left: -40px; bottom: -12px; transform: rotate(-12deg); }
+.decoration-stamp { width: 112px; right: -42px; bottom: -18px; transform: rotate(9deg); }
+
+.friends-photo {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 22px;
+}
+
+.friends-photo > img:not(.decoration) { display: block; }
+.decoration-band { width: 110px; top: -28px; left: -22px; transform: rotate(-12deg); }
+
+body > p { margin: 36px auto 0; font-size: 12px; color: #576a76; }
+
+@media (max-width: 768px) {
+    body { --lace-width: 20px; padding: 44px 36px; }
+    h1 { font-size: 1.7rem; }
+    .pony { width: 180px; height: 180px; }
+    .pony-photo { width: 180px; }
+    .decoration-star { width: 58px; right: -8px; bottom: -8px; }
+    .decoration-cd { width: 68px; left: -25px; }
+    .decoration-stamp { width: 88px; right: -28px; bottom: -16px; }
+    .decoration-band { width: 82px; left: -8px; top: -22px; }
+}
+
+@media (max-width: 380px) {
+    body { --lace-width: 14px; padding: 36px 26px; font-size: 14px; }
+}

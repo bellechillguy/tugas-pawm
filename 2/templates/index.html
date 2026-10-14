@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canvas Shapes</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Georgia, serif;
+      background: #f4efe6;
+      color: #222;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      margin: 0;
+      place-items: center;
+    }
+
+    main {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+      width: min(90vw, 420px);
+      height: auto;
+      margin-top: 1rem;
+      border: 3px solid #222;
+      background: #fffaf2;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Primitive Canvas</h1>
+    <canvas id="shapeCanvas" width="420" height="560">
+      Tiga shape tersusun vertikal dengan tulisan {{ student_name }} di atasnya.
+    </canvas>
+  </main>
+  <script src="{{ url_for('static', filename='canvas.js') }}"></script>
+</body>
+</html>

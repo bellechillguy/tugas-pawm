@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 32px 48px;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #222;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+
+/* Title */
+h1 {
+    margin: 0 0 16px;
+
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #f0438c;
+}
+
+body > img[alt="mlp"] {
+    display: block;
+
+    width: 750px;
+    max-width: 90%;
+    height: auto;
+
+    margin: 0 auto 48px;
+}
+
+body > div img {
+    display: block;
+    width: 220px;
+    height: 220px;
+    margin: 12px auto;
+    object-fit: contain;
+}
+
+@media(max-width:10px){
+    nav{
+        flex-direction:column;
+        gap:20px;
+    }
+}

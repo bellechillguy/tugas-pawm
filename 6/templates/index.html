@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ponyville!</title>
+        {{ css_content|safe }}
+        <script src="{{ url_for('script') }}" defer></script>
+    </head>
+    <body>
+        <div class="lace-frame" aria-hidden="true">
+            <span class="lace-edge lace-left"></span>
+            <span class="lace-edge lace-right"></span>
+            <span class="lace-edge lace-top"></span>
+            <span class="lace-edge lace-bottom"></span>
+        </div>
+        <main>
+            <header class="welcome">
+                <h1>ִ ࣪ ˖ ࣪ ᨰꫀᥣᥴ᥆ꩇꫀ to Ponyville! ᰔ ִ ׄ</h1>
+                <img class="hero" src="{{ url_for('static', filename='img/mlp.gif') }}" alt="mlp">
+            </header>
+            <div class="song">
+                <section class="verse intro">
+                    <div>My Little Pony</div>
+                    <div>I used to wonder what friendship could be</div>
+                    <div>Until you all shared its magic with me</div>
+                    <div class="friendship-photo">
+                        <img class="friendship" src="{{ url_for('static', filename='img/friendship.gif') }}" alt="friendship">
+                        <img class="decoration decoration-star" src="{{ url_for('static', filename='img/hiasan/star.png') }}" alt="" aria-hidden="true">
+                    </div>
+                </section>
+                <section class="verse">
+                    Big Adventure
+                    <div class="pony-photo">
+                        <img class="pony" src="{{ url_for('static', filename='img/dashie.gif') }}" alt="dashie">
+                        <img class="decoration decoration-cd" src="{{ url_for('static', filename='img/hiasan/cd.png') }}" alt="" aria-hidden="true" loading="lazy">
+                    </div>
+                </section>
+                <section class="verse">
+                    Tons of fun
+                    <img class="pony" src="{{ url_for('static', filename='img/pinkie.GIF') }}" alt="pinkie">
+                </section>
+                <section class="verse">
+                    A beautiful heart
+                    <div class="pony-photo">
+                        <img class="pony" src="{{ url_for('static', filename='img/rarity.gif') }}" alt="rarity">
+                        <img class="decoration decoration-stamp" src="{{ url_for('static', filename='img/hiasan/stamp.png') }}" alt="" aria-hidden="true" loading="lazy">
+                    </div>
+                </section>
+                <section class="verse">
+                    Faithful and Strong
+                    <img class="pony" src="{{ url_for('static', filename='img/jack.gif') }}" alt="jack">
+                </section>
+                <section class="verse">
+                    Sharing kindness
+                    <img class="pony" src="{{ url_for('static', filename='img/fluttershy.gif') }}" alt="fluttershy">
+                </section>
+                <section class="verse finale">
+                    It's an easy feat &amp; magic makes it all complete
+                    <img class="pony" src="{{ url_for('static', filename='img/twilight.gif') }}" alt="twilight">
+                    <p>You have my little ponies, do you know you're all my very best friends?</p>
+                    <div class="friends-photo">
+                        <img class="decoration decoration-band" src="{{ url_for('static', filename='img/hiasan/band.png') }}" alt="" aria-hidden="true" loading="lazy">
+                        <img src="{{ url_for('static', filename='img/mlp2.gif') }}" alt="mlp2">
+                    </div>
+                </section>
+            </div>
+        </main>
+    </body>
+</html>
